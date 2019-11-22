@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Text scoreText;
+    [SerializeField] Text resultScoreText;
+    [SerializeField] Text MaxScoreText;
     [SerializeField] Fish fish;
     [SerializeField] GameObject pipes;
     [SerializeField] GameObject GameOverPanel;
@@ -23,8 +25,6 @@ public class GameManager : MonoBehaviour
         pipes.SetActive(false);
         state = State.READY;
         fish.SetKinematic(true);
-        
-        scoreText.gameObject.SetActive(false);
         GameOverPanel.gameObject.SetActive(false);
     }
 
@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
             case State.READY:
                 if(Input.GetButtonDown("Fire1"))
                 {
-                    scoreText.gameObject.SetActive(true);
                     GameStart();
                 }
                 break;
@@ -69,7 +68,10 @@ public class GameManager : MonoBehaviour
             scrollObject.enabled = false;
         }
 
+        Load();
         GameOverPanel.SetActive(true);
+
+        resultScoreText.text = scoreText.text;
     }
 
     public void IncreaseScore()
@@ -81,5 +83,17 @@ public class GameManager : MonoBehaviour
     public void ExitOnClick()
     {
         state = State.GAMEOVER;
+        Save();
+    }
+
+    void Save()
+    {
+        if(PlayerPrefs.GetInt("Score")< int.Parse(scoreText.text))
+        PlayerPrefs.SetInt("Score", int.Parse(scoreText.text));
+    }
+
+    void Load()
+    {
+        MaxScoreText.text = PlayerPrefs.GetInt("Score").ToString();
     }
 }

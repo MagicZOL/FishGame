@@ -9,6 +9,7 @@ public class Fish : MonoBehaviour
     [SerializeField] GameObject sprite;
     [SerializeField] FlashImage flashImage;
 
+    Animator animator;
     Rigidbody2D rigidbody;
     bool isDead;
 
@@ -23,6 +24,7 @@ public class Fish : MonoBehaviour
     void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -59,6 +61,8 @@ public class Fish : MonoBehaviour
         flashImage.StartFlash();
         //물고기 사망처리 
         isDead = true;
+
+        animator.speed = 0.0f;
     }
     
     public void SetKinematic(bool value)

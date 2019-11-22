@@ -7,12 +7,14 @@ public class TextManager : MonoBehaviour
     [SerializeField] GameObject Logo;
     [SerializeField] GameObject StartMessage;
 
+    [SerializeField] GameObject Score;
     bool isActive = true;
     // Start is called before the first frame update
     void Start()
     {
         if(isActive)
         {
+            Score.SetActive(!isActive);
             Logo.SetActive(isActive);
             StartMessage.GetComponent<Animator>().SetTrigger("Message");
         }
@@ -23,6 +25,7 @@ public class TextManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
+            Score.SetActive(isActive);
             Logo.SetActive(!isActive);
             StartMessage.SetActive(!isActive);
         }
