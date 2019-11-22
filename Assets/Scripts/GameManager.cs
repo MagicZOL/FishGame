@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text scoreText;
     [SerializeField] Fish fish;
     [SerializeField] GameObject pipes;
+    [SerializeField] GameObject GameOverPanel;
 
     State state;
 
@@ -22,6 +23,9 @@ public class GameManager : MonoBehaviour
         pipes.SetActive(false);
         state = State.READY;
         fish.SetKinematic(true);
+        
+        scoreText.gameObject.SetActive(false);
+        GameOverPanel.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -31,6 +35,7 @@ public class GameManager : MonoBehaviour
             case State.READY:
                 if(Input.GetButtonDown("Fire1"))
                 {
+                    scoreText.gameObject.SetActive(true);
                     GameStart();
                 }
                 break;
@@ -38,10 +43,7 @@ public class GameManager : MonoBehaviour
                 if (fish.IsDead) GameOver();
                 break;
             case State.GAMEOVER:
-                if (Input.GetButtonDown("Fire1"))
-                {
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name); //현재 활성화된 씬의 이름을 가져와서 Load시킴
-                }
                 break;
         }
     }
@@ -58,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-        state = State.GAMEOVER;
+        //state = State.GAMEOVER;
 
         ScrollObject[] scrollObjects = GameObject.FindObjectsOfType<ScrollObject>();
 
@@ -66,11 +68,18 @@ public class GameManager : MonoBehaviour
         {
             scrollObject.enabled = false;
         }
+
+        GameOverPanel.SetActive(true);
     }
 
     public void IncreaseScore()
     {
         score++;
         scoreText.text = score.ToString();
+    }
+
+    public void ExitOnClick()
+    {
+        state = State.GAMEOVER;
     }
 }
