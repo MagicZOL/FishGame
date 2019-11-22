@@ -8,9 +8,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text scoreText;
     [SerializeField] Text resultScoreText;
     [SerializeField] Text MaxScoreText;
+    [SerializeField] Text StartMaxScoreText;
     [SerializeField] Fish fish;
     [SerializeField] GameObject pipes;
     [SerializeField] GameObject GameOverPanel;
+
+    [SerializeField] GameObject StartScorePanel;
 
     State state;
 
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour
         state = State.READY;
         fish.SetKinematic(true);
         GameOverPanel.gameObject.SetActive(false);
+        StartMaxScoreText.text = PlayerPrefs.GetInt("Score").ToString();
     }
 
     private void Update()
@@ -55,6 +59,8 @@ public class GameManager : MonoBehaviour
         fish.SetKinematic(false);
 
         pipes.SetActive(true);
+
+        StartScorePanel.SetActive(false);
     }
 
     void GameOver()
