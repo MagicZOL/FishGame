@@ -11,13 +11,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text StartMaxScoreText;
     [SerializeField] Fish fish;
     [SerializeField] GameObject pipes;
-    [SerializeField] GameObject GameOverPanel;
+    // [SerializeField] GameObject GameOverPanel;
 
-    [SerializeField] GameObject StartScorePanel;
+    //[SerializeField] GameObject StartScorePanel;
 
-    // [SerializeField] GamePanel gameReadPanel;
-    // [SerializeField] GamePanel gamePlayPanel;
-    // [SerializeField] GamePanel gameOverPanel;
+    [SerializeField] GamePanel gameReadPanel;
+    [SerializeField] GamePanel gamePlayPanel;
+    [SerializeField] GamePanel gameOverPanel;
     State state;
 
     int score;
@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
         pipes.SetActive(false);
         state = State.READY;
         fish.SetKinematic(true);
-        GameOverPanel.gameObject.SetActive(false);
         StartMaxScoreText.text = PlayerPrefs.GetInt("Score").ToString();
     }
 
@@ -49,7 +48,7 @@ public class GameManager : MonoBehaviour
                 if (fish.IsDead) GameOver();
                 break;
             case State.GAMEOVER:
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name); //현재 활성화된 씬의 이름을 가져와서 Load시킴
+                    //SceneManager.LoadScene(SceneManager.GetActiveScene().name); //현재 활성화된 씬의 이름을 가져와서 Load시킴
                 break;
         }
     }
@@ -63,10 +62,8 @@ public class GameManager : MonoBehaviour
 
         pipes.SetActive(true);
 
-        StartScorePanel.SetActive(false);
-
-        //gamePlayPanel.Open();
-        //gameReadPanel.Close();
+        gamePlayPanel.Open();
+        gameReadPanel.Close();
     }
 
     void GameOver()
@@ -81,9 +78,11 @@ public class GameManager : MonoBehaviour
         }
 
         Load();
-        GameOverPanel.SetActive(true);
 
         resultScoreText.text = scoreText.text;
+        //GameOVer 패널 활성화
+        gamePlayPanel.Close();
+        gameOverPanel.Open();
     }
 
     public void IncreaseScore()
