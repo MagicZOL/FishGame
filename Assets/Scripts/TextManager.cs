@@ -16,7 +16,6 @@ public class TextManager : MonoBehaviour
         {
             Score.SetActive(!isActive);
             Logo.SetActive(isActive);
-            StartMessage.GetComponent<Animator>().SetTrigger("Message");
         }
     }
 

@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject StartScorePanel;
 
+    // [SerializeField] GamePanel gameReadPanel;
+    // [SerializeField] GamePanel gamePlayPanel;
+    // [SerializeField] GamePanel gameOverPanel;
     State state;
 
     int score;
@@ -61,6 +64,9 @@ public class GameManager : MonoBehaviour
         pipes.SetActive(true);
 
         StartScorePanel.SetActive(false);
+
+        //gamePlayPanel.Open();
+        //gameReadPanel.Close();
     }
 
     void GameOver()
