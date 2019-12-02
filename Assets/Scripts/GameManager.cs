@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Advertisements;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Text scoreText;
@@ -22,18 +23,31 @@ public class GameManager : MonoBehaviour
 
     int score;
 
+    string gameId = "3382792";
+
+    string placementId = "banner";
+
     enum State
     {
         READY, PLAY, GAMEOVER
     }
     private void Start()
     {
-        pipes.SetActive(false);
-        state = State.READY;
-        fish.SetKinematic(true);
-        StartMaxScoreText.text = PlayerPrefs.GetInt("Score").ToString();
+        GameReady();
+
+        Advertisement.Initialize(gameId, false);
+        StartCoroutine(ShowBannerWhenReady());
     }
 
+    IEnumerator ShowBannerWhenReady()
+    {
+        while(!Advertisement.IsReady(placementId))
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+        Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
+        Advertisement.Banner.Show(placementId);
+    }
     private void Update()
     {
         switch (state)
@@ -53,6 +67,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void GameReady()
+    {
+        pipes.SetActive(false);
+        state = State.READY;
+        fish.SetKinematic(true);
+        StartMaxScoreText.text = PlayerPrefs.GetInt("Score").ToString();
+    }
     void GameStart()
     {
         state = State.PLAY;
@@ -83,6 +104,8 @@ public class GameManager : MonoBehaviour
         //GameOVer 패널 활성화
         gamePlayPanel.Close();
         gameOverPanel.Open();
+        
+        ExitOnClick();
     }
 
     public void IncreaseScore()
