@@ -7,26 +7,32 @@ using UnityEngine.Advertisements;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Text scoreText;
-    [SerializeField] Text resultScoreText;
-    [SerializeField] Text MaxScoreText;
-    [SerializeField] Text StartMaxScoreText;
+
     [SerializeField] Fish fish;
     [SerializeField] GameObject pipes;
-    // [SerializeField] GameObject GameOverPanel;
-
-    //[SerializeField] GameObject StartScorePanel;
 
     [SerializeField] GamePanel gameReadPanel;
     [SerializeField] GamePanel gamePlayPanel;
     [SerializeField] GamePanel gameOverPanel;
     State state;
 
-    int score;
+    public int score;
+
+    public int bestScore;
 
     string gameId = "3382792";
 
     string placementId = "banner";
 
+    string serverId;
+
+    public static GameManager Instance;
+    private void Awake(){
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
     enum State
     {
         READY, PLAY, GAMEOVER
@@ -37,6 +43,14 @@ public class GameManager : MonoBehaviour
 
         Advertisement.Initialize(gameId, false);
         StartCoroutine(ShowBannerWhenReady());
+
+        //플레이어의 서버 ID 확인
+        serverId = PlayerPrefs.GetString("Id");
+
+        if(serverId == "")
+        {
+            NetWork.Instance.GetServerID();
+        }
     }
 
     IEnumerator ShowBannerWhenReady()
@@ -62,7 +76,6 @@ public class GameManager : MonoBehaviour
                 if (fish.IsDead) GameOver();
                 break;
             case State.GAMEOVER:
-                    //SceneManager.LoadScene(SceneManager.GetActiveScene().name); //현재 활성화된 씬의 이름을 가져와서 Load시킴
                 break;
         }
     }
@@ -72,7 +85,6 @@ public class GameManager : MonoBehaviour
         pipes.SetActive(false);
         state = State.READY;
         fish.SetKinematic(true);
-        StartMaxScoreText.text = PlayerPrefs.GetInt("Score").ToString();
     }
     void GameStart()
     {
@@ -89,7 +101,7 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-        //state = State.GAMEOVER;
+        state = State.GAMEOVER;
 
         ScrollObject[] scrollObjects = GameObject.FindObjectsOfType<ScrollObject>();
 
@@ -98,14 +110,12 @@ public class GameManager : MonoBehaviour
             scrollObject.enabled = false;
         }
 
-        Load();
+        SaveScore();
 
-        resultScoreText.text = scoreText.text;
         //GameOVer 패널 활성화
         gamePlayPanel.Close();
         gameOverPanel.Open();
-        
-        ExitOnClick();
+
     }
 
     public void IncreaseScore()
@@ -114,20 +124,27 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
     }
 
-    public void ExitOnClick()
+    public void OnClickQuit()
     {
-        state = State.GAMEOVER;
-        Save();
+        gameOverPanel.Close();
     }
 
-    void Save()
+    public void ReloadScene()
     {
-        if(PlayerPrefs.GetInt("Score")< int.Parse(scoreText.text))
-        PlayerPrefs.SetInt("Score", int.Parse(scoreText.text));
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    void Load()
+    void SaveScore()
     {
-        MaxScoreText.text = PlayerPrefs.GetInt("Score").ToString();
+        if(bestScore < score)
+        {
+            bestScore = score;
+            PlayerPrefs.SetInt("bestScore", bestScore);
+        }
+    }
+
+    public void LoadScore()
+    {
+        bestScore = PlayerPrefs.GetInt("bestScore", 0);
     }
 }

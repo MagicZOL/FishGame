@@ -10,8 +10,8 @@ public class GameOverPanel : GamePanel, IUnityAdsListener
     [SerializeField] Animator popupAnimator;
     [SerializeField] Button adsButton;
 
-     [SerializeField] Text resultScoreText;
-    [SerializeField] Text MaxScoreText;
+     [SerializeField] Text resultScoreText; //현재 점수
+    [SerializeField] Text MaxScoreText; //최고점수
     
 #if Unity_ANDROID //유니티 안드로이일경우만 아래코드 실행, 안드로이드가 아니면 코드를 지움
     string gameId = "3382792";
@@ -36,16 +36,17 @@ public class GameOverPanel : GamePanel, IUnityAdsListener
     public override void Close()
     {
         popupAnimator.SetTrigger("hide");
-        Restart();
-    }
-
-    public void Restart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); //현재 활성화된 씬의 이름을 가져와서 Load시킴
     }
     public override void Open()
     {
         popupAnimator.SetTrigger("show");
+        MaxScoreText.text = GameManager.Instance.bestScore.ToString();
+        resultScoreText.text = GameManager.Instance.score.ToString();
+    }
+
+     public void Finish()
+    {
+        GameManager.Instance.ReloadScene();
     }
 
     public void OnUnityAdsReady(string placementId)
