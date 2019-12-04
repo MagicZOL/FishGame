@@ -1,0 +1,52 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
+using System;
+
+struct UserId
+{
+    public string id;
+    public string username;
+}
+public class NetWork : MonoBehaviour
+{
+    public static NetWork Instance;
+
+    private void Awake() {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
+    public void GetServerID(string username, Action didFinsedGetServerId)
+    {
+        StartCoroutine(GetServerIDCoroutine(username,didFinsedGetServerId));
+    }
+
+    // 서버에서 Server ID 받기
+    IEnumerator GetServerIDCoroutine(string username, Action didFinsedGetServerId)
+    {
+        UnityWebRequest www = UnityWebRequest.Get("localhost:3000/users/new/" + username);
+        yield return www.SendWebRequest();
+
+        if(www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+
+            string result = www.downloadHandler.text;
+
+            //UserId resultobj = JsonUtility.FromJson<UserId>(result);
+            UserId resultobj = JsonUtility.FromJson<UserId>(result);
+            //ID를 저장
+            PlayerPrefs.SetString("id", resultobj.id);
+            PlayerPrefs.SetString("username", resultobj.username);
+            didFinsedGetServerId();
+        }
+    }
+}

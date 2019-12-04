@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GamePanel gameReadPanel;
     [SerializeField] GamePanel gamePlayPanel;
     [SerializeField] GamePanel gameOverPanel;
-    State state;
+    [SerializeField] CreateUsernamePanel createUsernamePanel;
 
     public int score;
 
@@ -35,22 +35,33 @@ public class GameManager : MonoBehaviour
     }
     enum State
     {
-        READY, PLAY, GAMEOVER
+        NONE, READY, PLAY, GAMEOVER
     }
+
+    State state = State.NONE;
+    
     private void Start()
     {
         GameReady();
-
-        Advertisement.Initialize(gameId, false);
-        StartCoroutine(ShowBannerWhenReady());
 
         //플레이어의 서버 ID 확인
         serverId = PlayerPrefs.GetString("Id");
 
         if(serverId == "")
         {
-            NetWork.Instance.GetServerID();
+            //유저명 입력창 표시
+            createUsernamePanel.Open(() => 
+            {
+                state = State.READY;
+            });
         }
+        else
+        {
+            state = State.READY;  
+        }
+
+        Advertisement.Initialize(gameId, false);
+        StartCoroutine(ShowBannerWhenReady());
     }
 
     IEnumerator ShowBannerWhenReady()
@@ -83,7 +94,6 @@ public class GameManager : MonoBehaviour
     void GameReady()
     {
         pipes.SetActive(false);
-        state = State.READY;
         fish.SetKinematic(true);
     }
     void GameStart()
