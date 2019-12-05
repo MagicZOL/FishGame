@@ -34,7 +34,7 @@ public class NetWork : MonoBehaviour
     // 서버에서 Server ID 받기
     IEnumerator GetServerIDCoroutine(string username, Action success, Action fail)
     {
-        UnityWebRequest www = UnityWebRequest.Get("192.168.0.133:3000/users/new/" + username);
+        UnityWebRequest www = UnityWebRequest.Get("localhost:3000/users/new/" + username);
         yield return www.SendWebRequest();
 
         if(www.isNetworkError || www.isHttpError)
@@ -69,7 +69,7 @@ public class NetWork : MonoBehaviour
 
         string postData = JsonUtility.ToJson(userScore);
 
-        UnityWebRequest www = UnityWebRequest.Put("192.168.0.133:3000/score/add", postData);
+        UnityWebRequest www = UnityWebRequest.Put("localhost:3000/score/add", postData);
 
         www.SetRequestHeader("content-Type", "application/json");
         www.method = "POST";

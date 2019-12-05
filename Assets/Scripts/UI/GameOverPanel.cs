@@ -10,7 +10,7 @@ public class GameOverPanel : GamePanel, IUnityAdsListener
     [SerializeField] Animator popupAnimator;
     [SerializeField] Button adsButton;
 
-     [SerializeField] Text resultScoreText; //현재 점수
+    [SerializeField] Text resultScoreText; //현재 점수
     [SerializeField] Text MaxScoreText; //최고점수
     
 #if Unity_ANDROID //유니티 안드로이일경우만 아래코드 실행, 안드로이드가 아니면 코드를 지움
