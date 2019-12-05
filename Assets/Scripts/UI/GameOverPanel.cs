@@ -46,6 +46,7 @@ public class GameOverPanel : GamePanel, IUnityAdsListener
 
      public void Finish()
     {
+        Debug.Log("눌러짐");
         GameManager.Instance.ReloadScene();
     }
 

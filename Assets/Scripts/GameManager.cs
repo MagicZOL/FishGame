@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
         GameReady();
 
         //플레이어의 서버 ID 확인
-        serverId = PlayerPrefs.GetString("Id");
+        serverId = PlayerPrefs.GetString("id");
 
         if(serverId == "")
         {
@@ -150,6 +150,13 @@ public class GameManager : MonoBehaviour
         {
             bestScore = score;
             PlayerPrefs.SetInt("bestScore", bestScore);
+
+            //서버에 Best Score 등록
+            string id = PlayerPrefs.GetString("id");
+            if(id != "")
+            {
+                NetWork.Instance.UpdateBestScore(id, score);
+            }
         }
     }
 

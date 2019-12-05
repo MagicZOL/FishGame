@@ -9,6 +9,12 @@ struct UserId
     public string id;
     public string username;
 }
+
+struct UserScore
+{
+    public string id;
+    public int score;
+}
 public class NetWork : MonoBehaviour
 {
     public static NetWork Instance;
@@ -20,20 +26,21 @@ public class NetWork : MonoBehaviour
         }
     }
 
-    public void GetServerID(string username, Action didFinsedGetServerId)
+    public void GetServerID(string username, Action success, Action fail)
     {
-        StartCoroutine(GetServerIDCoroutine(username,didFinsedGetServerId));
+        StartCoroutine(GetServerIDCoroutine(username,success,fail));
     }
 
     // 서버에서 Server ID 받기
-    IEnumerator GetServerIDCoroutine(string username, Action didFinsedGetServerId)
+    IEnumerator GetServerIDCoroutine(string username, Action success, Action fail)
     {
-        UnityWebRequest www = UnityWebRequest.Get("localhost:3000/users/new/" + username);
+        UnityWebRequest www = UnityWebRequest.Get("192.168.0.133:3000/users/new/" + username);
         yield return www.SendWebRequest();
 
         if(www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+            fail();
         }
         else
         {
@@ -46,7 +53,35 @@ public class NetWork : MonoBehaviour
             //ID를 저장
             PlayerPrefs.SetString("id", resultobj.id);
             PlayerPrefs.SetString("username", resultobj.username);
-            didFinsedGetServerId();
+            
+            success();
+        }
+    }
+
+    public void UpdateBestScore(string id, int bestScore)
+    {
+        StartCoroutine(UpdateBestScoreCoroutin(id, bestScore));
+    }
+
+    IEnumerator UpdateBestScoreCoroutin(string id, int bestScore)
+    {
+        UserScore userScore = new UserScore { id = id, score = bestScore };
+
+        string postData = JsonUtility.ToJson(userScore);
+
+        UnityWebRequest www = UnityWebRequest.Put("192.168.0.133:3000/score/add", postData);
+
+        www.SetRequestHeader("content-Type", "application/json");
+        www.method = "POST";
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
         }
     }
 }

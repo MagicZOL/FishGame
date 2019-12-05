@@ -7,17 +7,30 @@ public class CreateUsernamePanel : GamePanel
 {
     [SerializeField] Animator popupAnimator;
     [SerializeField] InputField nameInputField;
+    [SerializeField] Button oKButton; //확인버튼
 
     Action CloseAction;
 
     public void OnClickOKButton()
     {
-        //서버에 ID 요청하기
         string username = nameInputField.text;
-        if(username !="")
+
+        if (username !="")
         {
-            NetWork.Instance.GetServerID(username, () => {
+            //서버에 ID 요청하기
+            oKButton.interactable = false;
+            nameInputField.interactable = false;
+
+            NetWork.Instance.GetServerID(username, 
+            () => {
                 Close();
+            },
+            () =>
+            {
+                //에러 팝업 띄워줘도 됨 이쯤에다
+                oKButton.interactable = true;
+                nameInputField.interactable = true;
+                nameInputField.text = "";
             });
         }
     }
