@@ -19,6 +19,7 @@ public class NetWork : MonoBehaviour
 {
     public static NetWork Instance;
 
+    string serverAddr = "https://myfishserverzol.herokuapp.com";
     private void Awake() {
         if(Instance == null)
         {
@@ -34,7 +35,7 @@ public class NetWork : MonoBehaviour
     // 서버에서 Server ID 받기
     IEnumerator GetServerIDCoroutine(string username, Action success, Action fail)
     {
-        UnityWebRequest www = UnityWebRequest.Get("localhost:3000/users/new/" + username);
+        UnityWebRequest www = UnityWebRequest.Get(serverAddr +"/users/new/" + username);
         yield return www.SendWebRequest();
 
         if(www.isNetworkError || www.isHttpError)
@@ -69,7 +70,7 @@ public class NetWork : MonoBehaviour
 
         string postData = JsonUtility.ToJson(userScore);
 
-        UnityWebRequest www = UnityWebRequest.Put("localhost:3000/score/add", postData);
+        UnityWebRequest www = UnityWebRequest.Put(serverAddr + "/score/add", postData);
 
         www.SetRequestHeader("content-Type", "application/json");
         www.method = "POST";
