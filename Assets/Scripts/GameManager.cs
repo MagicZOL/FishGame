@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Advertisements;
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] Text scoreText;
+    public Text scoreText;
 
     [SerializeField] Fish fish;
     [SerializeField] GameObject pipes;
@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GamePanel gamePlayPanel;
     [SerializeField] GamePanel gameOverPanel;
     [SerializeField] CreateUsernamePanel createUsernamePanel;
+
+    //[SerializeField] GameOverPanel gameOverPanelScript;
 
     public int score;
 
@@ -42,6 +44,9 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
+        score = GameOverPanel.saveScore;
+        scoreText.text = GameOverPanel.saveScore.ToString();
+
         GameReady();
 
         //플레이어의 서버 ID 확인
@@ -96,7 +101,7 @@ public class GameManager : MonoBehaviour
         pipes.SetActive(false);
         fish.SetKinematic(true);
     }
-    void GameStart()
+    public void GameStart()
     {
         state = State.PLAY;
 
