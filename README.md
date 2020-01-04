@@ -7,7 +7,7 @@ Unity를 이용하여 만든 파이프 피하기 게임입니다. <br>
 ***
 ***FishGame 영상*** / ***FishGame video***
 
-![switch](./Image/GIF.gif)
+![FishGame](./Image/GIF.gif)
 
 ***
 **게임소개**
