@@ -5,9 +5,9 @@
 Unity를 이용하여 만든 파이프 피하기 게임입니다. <br>
 
 ***
-***FishGame 디자인 소개*** / ***Introduction to FishGame Design***
+***FishGame 영상*** / ***FishGame video***
 
-![switch](./Image/GIF.gif)
+![FishGame](./Image/GIF.gif)
 
 ***
 **게임소개**
@@ -26,7 +26,7 @@ Unity를 이용하여 만든 파이프 피하기 게임입니다. <br>
 
 <ul> 4.파이프 충돌 및 점수 <br>
 파이프 충돌시 게임오버가 되며 한 파이프를 통과할 때마다 점수가 추가됩니다. <br>
-최고 점수를 향해 도전해보세요 <br>
+최고 점수를 향해 도전해보세요! <br>
 </ul>
 
 <ul> 5.게임 데이터 저장 <br>
@@ -36,7 +36,7 @@ Unity를 이용하여 만든 파이프 피하기 게임입니다. <br>
 
 <ul> 6.게임오버 상태 <br>
 게임 오버가 되면 다시 시작할 수 있습니다. <br>
-광고를 볼 수 있는 기능이 있습니다. 광고는 배너광고와 전면광고로 나뉩니다 <br>
+광고를 볼 수 있는 기능이 있습니다. 광고는 배너광고와 전면광고로 나뉩니다. <br>
 이어하기 광고 클릭시 유니티 광고가 재생되며 이어하실 수 있습니다. <br>
 </ul>
 
@@ -46,9 +46,60 @@ Unity를 이용하여 만든 파이프 피하기 게임입니다. <br>
 
 ***
 
-궁금한 점 및 요청사항은 아래 이메일을 참고해주세요<br>
+궁금한 점 및 요청사항은 아래 이메일을 참고해주세요.<br>
 구글 이메일 tnwls9721@gmil.com<br>
 네이버 이메일 chfhrtorthsk@naver.com<br>
 
 ***
 ## Engilsh
+# FishGame
+**Pipe game with Unity**
+
+Hello! <br>
+This is a pipe-free game created using Unity. <br>
+
+***
+
+**Introduction to the Games**
+<Ul> 1.Enter a Nickname <br>
+We made it possible to enter your own nickname at the beginning of the game. <br>
+</ul>
+
+<Ul> 2. Fish animation <br>
+It's not just an image, it's an animation to make it fun to move around and watch. <br>
+It has a shiny effect when a pipe crash hits the ground. <br>
+</ul>
+
+<Ul> 3.Moving effect <br>
+The fish did not move from side to side, but it had the same effect of moving the background and images from side to side. <br>
+</ul>
+
+<Ul> 4.Pipe collision and score <br>
+In case of pipe collision, the game is over and scores are added for each pipe pass. <br>
+Challenge yourself to the top score! <br>
+</ul>
+
+<Ul> 5.Save game data <br>
+The server is connected to the database, which saves the user's nickname, highest score. <br>
+Don't worry, your data will be preserved until you delete the game! <br>
+</ul>
+
+<Ul> 6.Gameover Status <br>
+Once the game is over, you can start again. <br>
+The ability to view advertisements is available. Advertisements are divided into banner ads and full-page ads. <br>
+You can click the Ease ad to play the Unity ad and continue. <br>
+</ul>
+
+***
+
+Help the fish take a long adventure!
+
+***
+
+Please refer to the email below for questions and requests. <br>
+Google Email tnwls9721@gmil.com tnwls9721@gmil.com <br>
+Naver e-mail chfhrtorthsk@naver.com <br>
+
+***
+
+![switch](./Image/anima.png)
