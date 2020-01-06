@@ -25,6 +25,8 @@ public class GameOverPanel : GamePanel, IUnityAdsListener
 
     string myPlacmentId = "rewardedVideo";
 
+    bool isFirst=true;
+
     private void Awake()
     {
         LoadAds();
@@ -74,21 +76,29 @@ public class GameOverPanel : GamePanel, IUnityAdsListener
 
     public void OnUnityAdsDidStart(string placementId)
     {
-        Debug.Log("여기가 문제");
-        Debug.Log("" + placementId);
+        if(isFirst)
+        {
+            Debug.Log("" + placementId);
+        }
     }
 
     //광고가 끝났을때
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
     {
-        Debug.Log("OnUnityAdsDidFinish : " + placementId + " " + showResult);
+        if(isFirst)
+        {
+            Debug.Log("OnUnityAdsDidFinish : " + placementId + " " + showResult);
 
-        saveScore = GameManager.Instance.score;
-        
-        isads = true;
-        SaveLoadAds();
+            saveScore = GameManager.Instance.score;
 
-        GameManager.Instance.ReloadScene();
+            isads = true;
+            SaveLoadAds();
+
+            isFirst = false;
+
+            GameManager.Instance.ReloadScene();
+        }
+        isFirst = false;
     }
 
     public void LoadAds()
